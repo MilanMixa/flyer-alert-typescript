@@ -16,6 +16,7 @@ const Options = ({ optionsArray, title, id }: Props) => {
   const { count, setCount } = useContext(OptionsContext);
   console.log(count);
   const [selected, setSelected] = useState("");
+  console.log(selected);
   const [showing, setShowing] = useState(true);
 
   const handleChange = (e: any) => {
@@ -24,31 +25,30 @@ const Options = ({ optionsArray, title, id }: Props) => {
 
   const handleClick = () => {
     setShowing((p) => !p);
-    //setCount(count + 1);
-    // if (count > 4) {
-    //   setCount(count - 1);
-    // }
-    // if (count < 3) {
-    //   setCount(count + 1);
-    // }
 
-    setCount(id + 1);
-    if (count >= 3) {
+    if (count <= id) {
+      setCount(id + 1);
+    }
+    if (count > id) {
       setCount(id);
     }
   };
 
   return (
     <div className="option">
-      {selected && !showing && (
-        <p onClick={handleClick} className="title__picked">
-          {title}: {selected}
-        </p>
-      )}
+      <div onClick={handleClick}>
+        {!showing ? (
+          <div className="title__picked">
+            <h2 className="option__title">{title}</h2> <p>{selected}</p>
+          </div>
+        ) : (
+          <p>{title}</p>
+        )}
+      </div>
       {optionsArray.map((option, index) => {
         return (
           <div key={index} className="option__choices">
-            {showing && count === id && (
+            {count === id && (
               <>
                 <input
                   type="radio"

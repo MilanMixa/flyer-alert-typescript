@@ -16,14 +16,14 @@ export type SelectedContextType = {
   setCount: Dispatch<SetStateAction<number>>;
 };
 
-const initialState = { count: 1, setCount: () => {} };
+const initialState = { count: 0, setCount: () => {} };
 
 export const OptionsContext = createContext<SelectedContextType>(initialState);
 
 const OptionsContextProvider: FC<OptionsContextProviderType> = ({
   children,
 }) => {
-  const [count, setCount] = useState(1);
+  const [count, setCount] = useState(0);
   return (
     <OptionsContext.Provider value={{ count, setCount }}>
       {children}
