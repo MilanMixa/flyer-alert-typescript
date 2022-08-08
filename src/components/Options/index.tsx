@@ -12,32 +12,42 @@ export type Props = {
 
 const Options = ({ optionsArray, title }: Props) => {
   const [selected, setSelected] = useState("");
-  console.log(selected);
+  const [showing, setShowing] = useState(true);
 
   const handleChange = (e: any) => {
     setSelected(e.target.value);
   };
 
+  const handleClick = (e: any) => {
+    console.log("clicked");
+    setShowing((p) => !p);
+  };
+
   return (
     <div>
-      {selected && (
-        <p>
+      {selected && !showing && (
+        <p onClick={handleClick}>
           {title}: {selected}
         </p>
       )}
 
       {optionsArray.map((option, index) => {
         return (
-          <div key={index}>
-            <input
-              type="radio"
-              name={"test"}
-              id={option.name}
-              value={option.name}
-              checked={selected === option.name}
-              onChange={handleChange}
-            />
-            <label htmlFor={option.name}>{option.name}</label>
+          <div key={index} className="test">
+            {showing && (
+              <>
+                <input
+                  type="radio"
+                  name="options"
+                  id={option.name}
+                  value={option.name}
+                  // checked={selected === option.name}
+                  onChange={handleChange}
+                  onClick={handleClick}
+                />
+                <label htmlFor={option.name}>{option.name}</label>
+              </>
+            )}
           </div>
         );
       })}
