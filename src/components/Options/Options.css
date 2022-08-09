@@ -5,18 +5,19 @@
 
 .option {
   text-align: center;
-  width: 300px;
+  width: 500px;
   padding: 10px;
   border: 1px solid red;
 }
 
 .title__picked {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 
 .option__title {
   font-size: 16px;
+  margin-right: 10px;
 }
 
 .option__choices {
