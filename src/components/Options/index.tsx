@@ -14,12 +14,16 @@ export type Props = {
 };
 
 const open = {
+  // opacity: 1,
   height: "auto",
 };
 
 const closed = {
-  height: 20,
+  // opacity: 0,
+  height: 0,
 };
+
+//
 
 const Options = ({ optionsArray, title, id }: Props) => {
   const { count, setCount } = useContext(OptionsContext);
@@ -33,7 +37,7 @@ const Options = ({ optionsArray, title, id }: Props) => {
   };
 
   const handleClick = () => {
-    setSelected("");
+    // setSelected("");
 
     if (count > id) {
       setCount(id);
@@ -41,24 +45,40 @@ const Options = ({ optionsArray, title, id }: Props) => {
   };
 
   return (
-    <AnimatePresence>
-      <motion.div
+    <AnimatePresence initial={false}>
+      <div
         className="option"
         onClick={handleClick}
-        //  transition={{ ease: "easeOut", duration: 2 }}
-        animate={count === id ? open : closed}
-        initial={{ height: 20 }}
-        exit={{ height: 20 }}
-        transition={{ duration: 0.2 }}
+        // animate={count === id ? open : closed}
+        // initial={closed}
+        // exit={closed}
+        // transition={{ duration: 0.8, ease: [0.04, 0.62, 0.23, 0.98] }}
       >
         <div className="title__picked">
           <h2 className="option__title">{title}</h2> <p>{selected}</p>
         </div>
-
-        {count === id &&
-          optionsArray.map((option, index) => {
+        <motion.div
+          animate={count === id ? open : closed}
+          initial={closed}
+          exit={closed}
+          transition={{ duration: 0.8, ease: [0.04, 0.62, 0.23, 0.98] }}
+          style={{ overflow: "hidden" }}
+        >
+          {optionsArray.map((option, index) => {
             return (
-              <div key={index} className="option__choices">
+              <div
+                key={index}
+                className="option__choices"
+                // initial={{ opacity: 0, scale: 0.5 }}
+                // animate={{ opacity: 1, scale: 1 }}
+                // transition={{
+                //   duration: 0.8,
+                //   delay: 0.5,
+                //   ease: [0, 0.71, 0.2, 1.01],
+                // }}
+                // animate={count === id ? { scale: 1 } : { scale: 0.8 }}
+                // transition={{ duration: 0.8 }}
+              >
                 <input
                   type="radio"
                   name="options"
@@ -70,7 +90,8 @@ const Options = ({ optionsArray, title, id }: Props) => {
               </div>
             );
           })}
-      </motion.div>
+        </motion.div>
+      </div>
     </AnimatePresence>
   );
 };
