@@ -1,14 +1,14 @@
 import "./App.css";
-import Options from "./components/Options";
+import OptionsWrapper from "./containers/OptionsWrapper";
 import { data, data1, data2, data3 } from "./data/optionsData";
 
 function App() {
   return (
     <div className="App">
-      <Options optionsArray={data} title={"Product"} id={0} />
-      <Options optionsArray={data1} title={"Format"} id={1} />
-      <Options optionsArray={data2} title={"Material"} id={2} />
-      <Options optionsArray={data3} title={"Color"} id={3} />
+      <OptionsWrapper optionsArray={data} title={"product"} id={0} />
+      <OptionsWrapper optionsArray={data1} title={"format"} id={1} />
+      <OptionsWrapper optionsArray={data2} title={"material"} id={2} />
+      <OptionsWrapper optionsArray={data3} title={"color"} id={3} />
     </div>
   );
 }

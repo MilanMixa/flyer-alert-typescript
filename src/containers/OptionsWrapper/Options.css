@@ -18,6 +18,10 @@
   margin-right: 10px;
 }
 
+.option__title:first-letter {
+  text-transform: uppercase;
+}
+
 .option__choices {
   text-align: left;
 }
