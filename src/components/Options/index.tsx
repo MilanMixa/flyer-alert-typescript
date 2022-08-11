@@ -14,16 +14,12 @@ export type Props = {
 };
 
 const open = {
-  // opacity: 1,
   height: "auto",
 };
 
 const closed = {
-  // opacity: 0,
   height: 0,
 };
-
-//
 
 const Options = ({ optionsArray, title, id }: Props) => {
   const { count, setCount } = useContext(OptionsContext);
@@ -37,8 +33,6 @@ const Options = ({ optionsArray, title, id }: Props) => {
   };
 
   const handleClick = () => {
-    // setSelected("");
-
     if (count > id) {
       setCount(id);
     }
@@ -46,16 +40,10 @@ const Options = ({ optionsArray, title, id }: Props) => {
 
   return (
     <AnimatePresence initial={false}>
-      <div
-        className="option"
-        onClick={handleClick}
-        // animate={count === id ? open : closed}
-        // initial={closed}
-        // exit={closed}
-        // transition={{ duration: 0.8, ease: [0.04, 0.62, 0.23, 0.98] }}
-      >
+      <div className="option" onClick={handleClick}>
         <div className="title__picked">
-          <h2 className="option__title">{title}</h2> <p>{selected}</p>
+          <h2 className="option__title">{title}</h2>
+          <motion.p>{selected}</motion.p>
         </div>
         <motion.div
           animate={count === id ? open : closed}
@@ -66,19 +54,7 @@ const Options = ({ optionsArray, title, id }: Props) => {
         >
           {optionsArray.map((option, index) => {
             return (
-              <div
-                key={index}
-                className="option__choices"
-                // initial={{ opacity: 0, scale: 0.5 }}
-                // animate={{ opacity: 1, scale: 1 }}
-                // transition={{
-                //   duration: 0.8,
-                //   delay: 0.5,
-                //   ease: [0, 0.71, 0.2, 1.01],
-                // }}
-                // animate={count === id ? { scale: 1 } : { scale: 0.8 }}
-                // transition={{ duration: 0.8 }}
-              >
+              <div key={index} className="option__choices">
                 <input
                   type="radio"
                   name="options"
