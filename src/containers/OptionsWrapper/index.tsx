@@ -3,6 +3,7 @@ import { useContext } from "react";
 import Options from "../../components/Options";
 import "./Options.css";
 import { OptionsContext } from "./OptionsContext";
+import useOptionsWrapper from "./useOptionsWrapper";
 
 export type OptionsType = {
   name: string;
@@ -27,6 +28,9 @@ const closed = {
 const OptionsWrapper = ({ optionsArray, title, id }: Props) => {
   const { count, setCount, selected, setSelected } = useContext(OptionsContext);
 
+  const { optionsData } = useOptionsWrapper();
+  console.log(optionsData);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSelected((prev) => ({
       ...prev,
@@ -48,14 +52,7 @@ const OptionsWrapper = ({ optionsArray, title, id }: Props) => {
       <div className="option">
         <div className="title__picked" onClick={handleClick}>
           <h2 className="option__title">{title}</h2>
-          {
-            <motion.p
-              animate={{ scale: [0, 1, 0.5, 1] }}
-              transition={{ times: [0, 0.1, 0.9, 1] }}
-            >
-              {selected[title]}
-            </motion.p>
-          }
+          {<motion.p>{selected[title]}</motion.p>}
         </div>
         <motion.div
           animate={count === id ? open : closed}

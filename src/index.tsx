@@ -4,15 +4,18 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import OptionsContextProvider from "./containers/OptionsWrapper/OptionsContext";
+import ReactQueryProvider from "./components/Providers/ReactQueryProvider";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <OptionsContextProvider>
-      <App />
-    </OptionsContextProvider>
+    <ReactQueryProvider>
+      <OptionsContextProvider>
+        <App />
+      </OptionsContextProvider>
+    </ReactQueryProvider>
   </React.StrictMode>
 );
 
