@@ -4,19 +4,22 @@ export type OptionProps = {
   optionsArray: OptionsType[];
 };
 
-const Options = ({ optionsArray }: OptionProps) => {
+const Options = ({ optionsData, title }: any) => {
+  console.log(optionsData?.data);
   return (
     <>
-      {optionsArray.map((option, index) => {
+      {optionsData?.data.map((option: any, index: any) => {
         return (
           <div key={index} className="option__choices">
-            <input
-              type="radio"
-              name="options"
-              id={option.name}
-              value={option.name}
-            />
-            <label htmlFor={option.name}>{option.name}</label>
+            <label htmlFor={option.id}>
+              <input
+                type="radio"
+                name="options"
+                id={option.id}
+                value={option[title]}
+              />
+              {option[title]}
+            </label>
           </div>
         );
       })}
