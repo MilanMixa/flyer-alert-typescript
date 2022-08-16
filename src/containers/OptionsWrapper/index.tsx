@@ -1,9 +1,14 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useContext } from "react";
-import Options from "../../components/Options";
-import "./Options.css";
+
+//CONTEXT:
 import { OptionsContext } from "./OptionsContext";
-import useOptionsWrapper from "./useOptionsWrapper";
+
+//COMPONENTS:
+import Options from "../../components/Options";
+
+//STYLES:
+import "./Options.css";
 
 export type OptionsType = {
   name: string;
@@ -12,7 +17,6 @@ export type OptionsType = {
 export type TitleType = "color" | "format" | "material" | "pages";
 
 export type Props = {
-  optionsArray: OptionsType[];
   title: TitleType;
   id: number;
 };
@@ -25,26 +29,16 @@ const closed = {
   height: 0,
 };
 
-const OptionsWrapper = ({ optionsArray, title, id }: Props) => {
+const OptionsWrapper = ({ title, id }: Props) => {
   const { count, setCount, selected, setSelected } = useContext(OptionsContext);
 
-  const { optionsData } = useOptionsWrapper();
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // let sel: any = e.target.value;
-    // console.log("sdasds", sel);
-    // const p = parseInt(e.target.value, 0);
-    // sel = !isNaN(p) && p;
-    // console.log("sdasds", sel);
-
     const value = e.target.value;
-    console.log(value, ":value");
-    // ? e.target.valueAsNumber
-    // : e.target.value;
+    // console.log(value, "value value value");
 
     setSelected((prev: any) => ({
       ...prev,
-      [title]: e.target.value,
+      [title]: isNaN(Number(value)) ? value : Number(value),
     }));
     if (count <= id) {
       setCount(id + 1);
@@ -72,7 +66,7 @@ const OptionsWrapper = ({ optionsArray, title, id }: Props) => {
           style={{ overflow: "hidden" }}
           onChange={handleChange}
         >
-          <Options optionsData={optionsData} title={title} />
+          <Options title={title} />
         </motion.div>
       </div>
     </AnimatePresence>
