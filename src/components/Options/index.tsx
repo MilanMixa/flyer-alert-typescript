@@ -9,17 +9,17 @@ const Options = ({ title }: { title: string }) => {
     new Set(
       optionsData?.data.map((item: any) => {
         return title === "material"
-          ? `${item[title]} ${item.weight}g`
+          ? `${item[title]} ${item.weight}`
           : item[title];
       })
     )
   );
   // console.log(unique, "unique");
+  // izbaciti option napolje, staviti u useMemo,
 
   return (
     <>
       {unique.map((option: any, index: number) => {
-        // console.log(option, "option");
         return (
           <div key={index} className="option__choices">
             <label htmlFor={option.id}>
