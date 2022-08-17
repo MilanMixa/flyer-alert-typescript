@@ -9,6 +9,7 @@ import Options from "../../components/Options";
 
 //STYLES:
 import "./Options.css";
+import useOptionsWrapper from "./useOptionsWrapper";
 
 export type TitleType = "color" | "format" | "material" | "pages";
 
@@ -27,6 +28,19 @@ const closed = {
 
 const OptionsWrapper = ({ title, id }: Props) => {
   const { count, setCount, selected, setSelected } = useContext(OptionsContext);
+  const { optionsData } = useOptionsWrapper();
+
+  const unique = Array.from(
+    new Set(
+      optionsData?.data.map((item: any) => {
+        return title === "material"
+          ? `${item[title]} ${item.weight}`
+          : item[title];
+      })
+    )
+  );
+
+  // unique treba da ide u useMemo
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -72,7 +86,7 @@ const OptionsWrapper = ({ title, id }: Props) => {
           style={{ overflow: "hidden" }}
           onChange={handleChange}
         >
-          <Options title={title} />
+          <Options unique={unique} />
         </motion.div>
       </div>
     </AnimatePresence>
