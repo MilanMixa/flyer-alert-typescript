@@ -11,24 +11,25 @@ export type OptionsContextProviderType = {
   children: ReactNode;
 };
 
-// interface IObject {
-//   color: string;
-//   format: string;
-//   material: string;
-//   product: string;
-// }
+export interface IObject {
+  color?: string;
+  format?: string;
+  material?: string;
+  pages?: number;
+  weight?: number;
+}
 
 export type SelectedContextType = {
   count: number;
   setCount: Dispatch<SetStateAction<number>>;
   selected: any;
-  setSelected: Dispatch<SetStateAction<any>>;
+  setSelected: Dispatch<SetStateAction<IObject>>;
 };
 
 const initialState = {
   count: 0,
   setCount: () => {},
-  selected: { color: "", format: "", material: "", pages: 0 },
+  selected: {},
   setSelected: () => {},
 };
 

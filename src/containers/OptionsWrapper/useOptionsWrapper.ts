@@ -5,7 +5,6 @@ import { getProduct } from "../../api/data";
 
 const useOptionsWrapper = () => {
   const { selected } = useContext(OptionsContext);
-  // console.log(selected);
 
   const fetchSelectedOption = async () => {
     const { data } = await getProduct(selected);

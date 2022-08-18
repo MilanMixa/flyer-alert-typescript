@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 
 //CONTEXT:
 import { OptionsContext } from "./OptionsContext";
@@ -11,7 +11,7 @@ import Options from "../../components/Options";
 import "./Options.css";
 import useOptionsWrapper from "./useOptionsWrapper";
 
-export type TitleType = "color" | "format" | "material" | "pages";
+export type TitleType = "color" | "format" | "material" | "pages" | "weight";
 
 export type Props = {
   title: TitleType;
@@ -30,17 +30,19 @@ const OptionsWrapper = ({ title, id }: Props) => {
   const { count, setCount, selected, setSelected } = useContext(OptionsContext);
   const { optionsData } = useOptionsWrapper();
 
-  const unique = Array.from(
-    new Set(
-      optionsData?.data.map((item: any) => {
-        return title === "material"
-          ? `${item[title]} ${item.weight}`
-          : item[title];
-      })
-    )
+  const memoizedUnique = useMemo(
+    () =>
+      Array.from(
+        new Set(
+          optionsData?.data.map((item: any) => {
+            return title === "material"
+              ? `${item[title]} ${item.weight}`
+              : item[title];
+          })
+        )
+      ),
+    [optionsData, title]
   );
-
-  // unique treba da ide u useMemo
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -55,6 +57,7 @@ const OptionsWrapper = ({ title, id }: Props) => {
     }
 
     setSelected(final);
+
     if (count <= id) {
       setCount(id + 1);
     }
@@ -65,7 +68,7 @@ const OptionsWrapper = ({ title, id }: Props) => {
       setCount(id);
     }
   };
-  console.log(selected);
+
   return (
     <AnimatePresence>
       <div className="option">
@@ -77,17 +80,18 @@ const OptionsWrapper = ({ title, id }: Props) => {
             </motion.p>
           }
         </div>
-        {/* if da bi ispitali da li postoji optionData */}
-        <motion.div
-          animate={count === id ? open : closed}
-          // initial={closed}
-          // exit={closed}
-          transition={{ duration: 0.8, ease: [0.04, 0.62, 0.23, 0.98] }}
-          style={{ overflow: "hidden" }}
-          onChange={handleChange}
-        >
-          <Options unique={unique} />
-        </motion.div>
+        {optionsData && (
+          <motion.div
+            animate={count === id ? open : closed}
+            initial={closed}
+            exit={closed}
+            transition={{ duration: 0.8, ease: [0.04, 0.62, 0.23, 0.98] }}
+            style={{ overflow: "hidden" }}
+            onChange={handleChange}
+          >
+            <Options memoizedUnique={memoizedUnique} />
+          </motion.div>
+        )}
       </div>
     </AnimatePresence>
   );
