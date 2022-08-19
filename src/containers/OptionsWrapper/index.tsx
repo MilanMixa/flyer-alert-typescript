@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useContext, useMemo } from "react";
 
 //CONTEXT:
-import { OptionsContext } from "./OptionsContext";
+import { IObject, OptionsContext } from "./OptionsContext";
 
 //COMPONENTS:
 import Options from "../../components/Options";
@@ -11,7 +11,7 @@ import Options from "../../components/Options";
 import "./Options.css";
 import useOptionsWrapper from "./useOptionsWrapper";
 
-export type TitleType = "color" | "format" | "material" | "pages" | "weight";
+export type TitleType = "color" | "format" | "material" | "pages";
 
 export type Props = {
   title: TitleType;
@@ -30,11 +30,11 @@ const OptionsWrapper = ({ title, id }: Props) => {
   const { count, setCount, selected, setSelected } = useContext(OptionsContext);
   const { optionsData } = useOptionsWrapper();
 
-  const memoizedUnique = useMemo(
+  const memoizedUnique: (string | number)[] = useMemo(
     () =>
       Array.from(
         new Set(
-          optionsData?.data.map((item: any) => {
+          optionsData?.data.map((item: IObject) => {
             return title === "material"
               ? `${item[title]} ${item.weight}`
               : item[title];
@@ -45,15 +45,27 @@ const OptionsWrapper = ({ title, id }: Props) => {
   );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // const final: IObject = { ...selected };
+    let final = {};
     const value = e.target.value;
-    const final = { ...selected };
 
     if (title === "material") {
       const newValue = value.split(" ");
-      final["weight"] = Number(newValue[1]);
-      final["material"] = newValue[0];
+      final = {
+        ...selected,
+        material: newValue[0],
+        weight: Number(newValue[1]),
+      };
+      // final["weight"] = Number(newValue[1]);
+      // final["material"] = newValue[0];
     } else {
-      final[title] = isNaN(Number(value)) ? value : Number(value);
+      final = {
+        ...selected,
+        [title]: isNaN(Number(value)) ? value : Number(value),
+      };
+      // final[title] = isNaN(Number(value))
+      //   ? (value as never)
+      //   : (Number(value) as never);
     }
 
     setSelected(final);
@@ -67,6 +79,28 @@ const OptionsWrapper = ({ title, id }: Props) => {
     if (count > id) {
       setCount(id);
     }
+    if (title === "format") {
+      setSelected({});
+    }
+    if (title === "pages") {
+      setSelected({
+        format: selected.format,
+      });
+    }
+    if (title === "material") {
+      setSelected({
+        format: selected.format,
+        pages: selected.pages,
+      });
+    }
+    if (title === "color") {
+      setSelected({
+        format: selected.format,
+        pages: selected.pages,
+        material: selected.material,
+        weight: selected.weight,
+      });
+    }
   };
 
   return (
@@ -74,11 +108,14 @@ const OptionsWrapper = ({ title, id }: Props) => {
       <div className="option">
         <div className="title__picked" onClick={handleClick}>
           <h2 className="option__title">{title}</h2>
-          {
-            <motion.p>
+          {selected[title] && (
+            <motion.p
+              animate={{ x: 10 }}
+              transition={{ type: "spring", stiffness: 100 }}
+            >
               {selected[title]} {title === "material" ? selected.weight : ""}
             </motion.p>
-          }
+          )}
         </div>
         {optionsData && (
           <motion.div

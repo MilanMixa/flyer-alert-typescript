@@ -14,15 +14,18 @@ export type OptionsContextProviderType = {
 export interface IObject {
   color?: string;
   format?: string;
+  id?: string;
   material?: string;
   pages?: number;
+  product_type_id?: number;
+  product_type_name?: string;
   weight?: number;
 }
 
 export type SelectedContextType = {
   count: number;
   setCount: Dispatch<SetStateAction<number>>;
-  selected: any;
+  selected: IObject;
   setSelected: Dispatch<SetStateAction<IObject>>;
 };
 

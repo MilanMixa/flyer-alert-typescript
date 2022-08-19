@@ -1,14 +1,18 @@
-const Options = ({ memoizedUnique }: { memoizedUnique: any }) => {
+const Options = ({
+  memoizedUnique,
+}: {
+  memoizedUnique: (string | number)[];
+}) => {
   return (
     <>
-      {memoizedUnique.map((option: any, index: number) => {
+      {memoizedUnique.map((option: string | number, index: number) => {
         return (
           <div key={index} className="option__choices">
-            <label htmlFor={option.id}>
+            <label htmlFor={option as string}>
               <input
                 type="radio"
                 name="options"
-                id={option.id}
+                id={option as string}
                 value={option}
               />
               {option}
