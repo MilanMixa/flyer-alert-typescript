@@ -1,16 +1,13 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { useContext, useMemo } from "react";
-
-//CONTEXT:
-import { IObject, OptionsContext } from "./OptionsContext";
 
 //COMPONENTS:
 import Options from "../../components/Options";
 
 //STYLES:
 import "./Options.css";
-import useOptionsWrapper from "./useOptionsWrapper";
 
+//HOOKS:
+import useOptions from "../../hooks/useOptions";
 export type TitleType = "color" | "format" | "material" | "pages";
 
 export type Props = {
@@ -27,81 +24,17 @@ const closed = {
 };
 
 const OptionsWrapper = ({ title, id }: Props) => {
-  const { count, setCount, selected, setSelected } = useContext(OptionsContext);
-  const { optionsData } = useOptionsWrapper();
-
-  const memoizedUnique: (string | number)[] = useMemo(
-    () =>
-      Array.from(
-        new Set(
-          optionsData?.data.map((item: IObject) => {
-            return title === "material"
-              ? `${item[title]} ${item.weight}`
-              : item[title];
-          })
-        )
-      ),
-    [optionsData, title]
-  );
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // const final: IObject = { ...selected };
-    let final = {};
-    const value = e.target.value;
-
-    if (title === "material") {
-      const newValue = value.split(" ");
-      final = {
-        ...selected,
-        material: newValue[0],
-        weight: Number(newValue[1]),
-      };
-      // final["weight"] = Number(newValue[1]);
-      // final["material"] = newValue[0];
-    } else {
-      final = {
-        ...selected,
-        [title]: isNaN(Number(value)) ? value : Number(value),
-      };
-      // final[title] = isNaN(Number(value))
-      //   ? (value as never)
-      //   : (Number(value) as never);
-    }
-
-    setSelected(final);
-
-    if (count <= id) {
-      setCount(id + 1);
-    }
-  };
-
-  const handleClick = () => {
-    if (count > id) {
-      setCount(id);
-    }
-    if (title === "format") {
-      setSelected({});
-    }
-    if (title === "pages") {
-      setSelected({
-        format: selected.format,
-      });
-    }
-    if (title === "material") {
-      setSelected({
-        format: selected.format,
-        pages: selected.pages,
-      });
-    }
-    if (title === "color") {
-      setSelected({
-        format: selected.format,
-        pages: selected.pages,
-        material: selected.material,
-        weight: selected.weight,
-      });
-    }
-  };
+  const {
+    memoizedUnique,
+    handleChange,
+    handleClick,
+    optionsData,
+    count,
+    selected,
+  } = useOptions({
+    title,
+    id,
+  });
 
   return (
     <AnimatePresence>

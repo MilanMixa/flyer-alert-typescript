@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { OptionsContext } from "./OptionsContext";
 import { getProduct } from "../../api/data";
 
-const useOptionsWrapper = () => {
+const useOptionsWrapperData = () => {
   const { selected } = useContext(OptionsContext);
 
   const fetchSelectedOption = async () => {
@@ -23,4 +23,4 @@ const useOptionsWrapper = () => {
   };
 };
 
-export default useOptionsWrapper;
+export default useOptionsWrapperData;
